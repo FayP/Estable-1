@@ -11,7 +11,7 @@
       <tr ng-repeat="charge in stableCharges" class="table-row">
         <td style="width:55%" ng-blur="hideRow(event)">
           <div style="display:none">
-            <div editable-number="charge.id" e-form="stablesform" e-name="Id" value="{{charge.id}}"></div>
+            <div editable-number="charge.Id" e-form="stablesform" e-name="Id" value="{{charge.Id}}"></div>
           </div>
           <!-- editable description, text -->
           <div type="text" ng-click="showRow($event, this.stablesform)" editable-text="charge.Description" class="clickable-field" e-name="Description" e-form="stablesform" e-required value="{{ charge.description || '+ description' }}">
@@ -20,13 +20,13 @@
         </td>
         <td style="width:20%">
           <!-- editable units, dropdown -->
-          <div editable-select="charge.Unit" ng-click="showRow($event, this)" class="clickable-field" e-name="Unit" e-form="stablesform" e-ng-options="u.value as u.text for u in units" value="{{ charge.unit }}">
+          <div editable-select="charge.Unit" ng-click="showRow($event, this.stablesform)" class="clickable-field" e-name="Unit" e-form="stablesform" e-ng-options="u.value as u.text for u in units" value="{{ charge.unit }}">
             {{ units[charge.Unit].text }}
           </div>
         </td>
         <td style="width:10%">
           <!-- editable rates, number -->
-          <div editable-number="charge.Rate" ng-click="showRow($event, this.stablesform.stablesform)" class="clickable-field" e-name="Rate" e-form="stablesform" e-ng-options="g.id as g.text for g in groups">
+          <div editable-number="charge.Rate" ng-click="showRow($event, this.stablesform)" class="clickable-field" e-name="Rate" e-form="stablesform" e-ng-options="g.id as g.text for g in groups">
             {{ charge.Rate }}
           </div>
         </td>

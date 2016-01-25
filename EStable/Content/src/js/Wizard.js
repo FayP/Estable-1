@@ -24,6 +24,10 @@
               templateUrl: "src/views/charge.html",
               controller: "wizardChargeController"
             })
+            .when("/horses", {
+              templateUrl: "src/views/horses.html",
+              controller: "wizardHorseController"
+            })
             .otherwise({ redirectTo: "/" });
     });
 }());
