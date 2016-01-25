@@ -30,11 +30,6 @@ table {
     }
   }
 
-  form{
-    height: 100%;
-    position: relative;
-  }
-
   .editable-wrap{
     width: 100%;
     height: 100%;
@@ -88,9 +83,15 @@ table {
   background: white;
   width: 110%;
   left: -5%;
-  padding: 0.4em;
+  border: 1px solid #ddd;
 
-  td{
-    border: none;
+  td {
+    height: 3em;
+    vertical-align: middle !important;
+
+    input, select {
+      height: 100% !important;
+      margin: 0;
+    }
   }
 }
