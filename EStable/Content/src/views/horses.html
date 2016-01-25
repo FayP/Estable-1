@@ -1,0 +1,69 @@
+<div ng-controller="wizardChargeController">
+  <div class="StableChargeTypeGrid">
+    <h3>Horses</h3>
+     <table class="table table-bordered table-hover table-condensed">
+      <tr style="font-weight: bold" class="table-header">
+        <td style="width:35%"><span>Racing Name</span></td>
+        <td style="width:15%"><span>Sire</span></td>
+        <td style="width:15%"><span>Dam</span></td>
+        <td style="width:35%"><span>Stable Name</span></td>
+      </tr>
+      <tr ng-repeat="charge in stableCharges" class="table-row">
+        <td style="width:35%">
+          <div style="display:none">
+            <div editable-number="horse.Id" e-form="horseform" e-name="Id" value="{{horse.Id}}"></div>
+          </div>
+          <!-- editable description, text -->
+          <div type="text" ng-click="showRow($event, this.horsesform)" editable-text="horse.RacingName" class="clickable-field" e-name="RacingName" e-form="horsesform" e-required value="{{ horse.Description }}">
+            {{ horse.RacingName }}
+          </div>
+        </td>
+        <td style="width:15%">
+          <!-- editable units, text -->
+          <div type="text" editable-text="horse.Sire" ng-click="showRow($event, this.horsesform)" class="clickable-field" e-name="Unit" e-form="horsesform" value="{{ charge.unit }}">
+            {{ horse.Sire }}
+          </div>
+        </td>
+        <td style="width:15%">
+          <!-- editable rates, text -->
+          <div type="text" editable-text="horse.Dam" ng-click="showRow($event, this.horsesform)" class="clickable-field" e-name="Rate" e-form="horsesform">
+            {{ horse.Dam }}
+          </div>
+        </td>
+        <td style="width:29%">
+          <!-- editable rates, text -->
+          <div type="text" editable-text="horse.StableName" ng-click="showRow($event, this.horsesform)" class="clickable-field" e-name="Rate" e-form="horsesform">
+            {{ horse.StableName }}
+          </div>
+        </td>
+        <td style="white-space: nowrap; padding: 0; width: 6%">
+          <!-- form -->
+          <form editable-form name="horsesform" onbeforesave="postcharge($data)" class="form-buttons form-inline" shown="inserted == user">
+          </form>
+          <button class="btn btn-danger" tabindex="-1" class="clickable-field" ng-click="removeStableRow($index)">
+            <i class="fa fa-trash fa-lg"></i>
+          </button>
+        </td>
+      </tr>
+
+      <!----EXTRA DETAILS ROW--->
+      <tr class="extra-row-details editing-row">
+        <td style="width:25%">
+          <!-- editable description, text -->
+          <div type="text" ng-click="showRow($event, this.horsesform)" editable-select="horse.Gender" e-ng-options="g.value as g.text for g in genders" class="clickable-field" e-name="RacingName" e-form="horsesform" e-required value="{{ horse.Description }}">
+            {{ genders[horse.Gender].text }}
+          </div>
+        </td>
+      </tr>
+
+
+    </table>
+
+    <button class="btn btn-default" tabindex="-1" ng-click="addStableRow()">Add row</button>
+  </div>
+
+    <div class="form-group pull-right">
+      <button class="btn btn-default" ng-click="navigate('horses')">Next</button>
+    </div>
+
+</div>
