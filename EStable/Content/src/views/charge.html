@@ -2,41 +2,41 @@
   <div class="StableChargeTypeGrid">
     <h3>Stable Charge Types</h3>
      <table class="table table-bordered table-hover table-condensed">
-      <tr style="font-weight: bold">
-        <td style="width:55%">Description</td>
-        <td style="width:20%">Unit</td>
-        <td style="width:10%">Rate ($)</td>
-        <td style="width:16%">In Stable</td>
+      <tr style="font-weight: bold" class="table-header">
+        <td style="width:55%"><span>Description</span></td>
+        <td style="width:20%"><span>Unit</span></td>
+        <td style="width:10%"><span>Rate ($)</span></td>
+        <td style="width:16%"><span>In Stable</span></td>
       </tr>
       <tr ng-repeat="charge in stableCharges" class="table-row">
         <td style="width:55%" ng-blur="hideRow(event)">
           <div style="display:none">
-            <div editable-number="charge.id" e-form="rowform" e-name="Id" value="{{charge.id}}"></div>
+            <div editable-number="charge.id" e-form="stablesform" e-name="Id" value="{{charge.id}}"></div>
           </div>
           <!-- editable description, text -->
-          <div type="text" ng-click="showRow($event)" editable-text="charge.description" class="clickable-field" e-name="Description" e-form="rowform" e-required value="{{ charge.description || '+ description' }}">
-            {{ charge.description || '+ description' }}
+          <div type="text" ng-click="showRow($event, this.stablesform)" editable-text="charge.Description" class="clickable-field" e-name="Description" e-form="stablesform" e-required value="{{ charge.description || '+ description' }}">
+            {{ charge.Description || '+ description' }}
           </div>
         </td>
         <td style="width:20%">
           <!-- editable units, dropdown -->
-          <div editable-select="charge.unit" ng-click="showRow($event)" class="clickable-field" e-name="Unit" e-form="rowform" e-ng-options="u.value as u.text for u in units" value="{{ charge.unit }}">
-            {{ units[charge.unit].text }}
+          <div editable-select="charge.Unit" ng-click="showRow($event, this)" class="clickable-field" e-name="Unit" e-form="stablesform" e-ng-options="u.value as u.text for u in units" value="{{ charge.unit }}">
+            {{ units[charge.Unit].text }}
           </div>
         </td>
         <td style="width:10%">
           <!-- editable rates, number -->
-          <div editable-number="charge.rate" ng-click="showRow($event)" class="clickable-field" e-name="Rate" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-            {{ charge.rate }}
+          <div editable-number="charge.Rate" ng-click="showRow($event, this.stablesform.stablesform)" class="clickable-field" e-name="Rate" e-form="stablesform" e-ng-options="g.id as g.text for g in groups">
+            {{ charge.Rate }}
           </div>
         </td>
         <td style="width:10%">
           <!-- editable units, checkbox -->
-          <input type="checkbox" ng-click="showRow($event)" class="clickable-field" e-form="rowform" tabindex="-1" e-name="InStable" ng-checked="{{charge.inStable}}" />
+          <input type="checkbox" ng-click="showRow($event, this.stablesform)" class="clickable-field" e-form="stablesform" tabindex="-1" e-name="InStable" ng-checked="{{charge.InStable}}" />
         </td>
         <td style="white-space: nowrap; padding: 0; width: 6%">
           <!-- form -->
-          <form editable-form name="rowform" onbeforesave="postcharge($data)" class="form-buttons form-inline" shown="inserted == user">
+          <form editable-form name="stablesform" onbeforesave="postcharge($data)" class="form-buttons form-inline" shown="inserted == user">
           </form>
           <button class="btn btn-danger" tabindex="-1" class="clickable-field" ng-click="removeStableRow($index)">
             <i class="fa fa-trash fa-lg"></i>
@@ -51,32 +51,33 @@
   <div class="standardChargeTypeGrid">
       <h3>Standard Charge Types</h3>
        <table class="table table-bordered table-hover table-condensed">
-        <tr style="font-weight: bold">
-          <td style="width:80%">Description</td>
-          <td style="width:20%">Rate ($)</td>
+        <tr style="font-weight: bold" class="table-header">
+          <td style="width:80%"><span>Description</span></td>
+          <td style="width:20%"><span>Rate ($)</span></td>
         </tr>
         <tr ng-repeat="charge in standardCharges">
           <td style="width: 80%;">
             <!-- editable username (text with validation) -->
             <div
-            ng-click="standardform.$show()"
-            editable-text="charge.description"
-            e-name="description"
+            ng-click="showRow($event, this.standardform)"
+            editable-text="charge.Description"
+            e-name="Description"
             e-form="standardform"
             onbeforesave="validateDescription($data, user.id)"
             e-required>
-              {{ charge.description || '+ description' }}
+              {{ charge.Description || '+ description' }}
             </div>
           </td>
           <td style="text-align: right; width: 15%;">
             <!-- editable group (select-remote) -->
-            <div ng-click="standardform.$show()"
-            editable-select="charge.rate"
-            e-name="rate"
+            <div
+            ng-click="showRow($event, this.standardform)"
+            editable-select="charge.Rate"
+            e-name="Rate"
             e-form="standardform"
             class="number-field"
             e-ng-options="g.id as g.text for g in groups">
-              {{ charge.rate || '0.00'}}
+              {{ charge.Rate || '0.00'}}
             </div>
           </td>
           <td style="white-space: nowrap; padding: 0; width: 5%;">

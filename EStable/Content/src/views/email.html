@@ -3,10 +3,6 @@
     <div class="form-group">
       <label>Email </label>
       <input ng-model="email" type="text" ng-pattern="validation.emailPattern" name="StableEmail" class="form-control" required/>
-
-      <div role="alert">
-        <span class"error" ng-show="emailForm.StableEmail.$invalid">Please enter a valid email address.{{emailForm.$invalid}} {{ emailForm.StableEmail.$error }}</span>
-       </div>
     </div>
     <div class="form-group pull-right">
       <input type="submit" value="Create eStable" class="btn btn-default" ng-disabled="emailForm.$invalid"/>

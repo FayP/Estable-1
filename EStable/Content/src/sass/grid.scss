@@ -30,6 +30,16 @@ table {
       }
     }
   }
+
+  .table-header{
+    span{
+      padding: 5px;
+    }
+    &:hover{
+      background-color: transparent;
+    }
+  }
+
   .clickable-field{
     height: 100%;
     flex: 1;
@@ -48,8 +58,15 @@ table {
     }
   }
 
-  [editable-number], [type=checkbox]{
+  [editable-number], input[type=checkbox]{
     text-align: right;
+    float: right;
+    height: initial;
+  }
+
+  input[type=checkbox]{
+    right: 5px;
+    top: 5px;
   }
 
   .btn-primary, .btn-default, .btn-danger{
@@ -90,6 +107,7 @@ table {
   width: 110%;
   left: -5%;
   border: 1px solid #ddd;
+  font-size: 110%;
 
   td {
     height: 3em;
@@ -98,6 +116,10 @@ table {
     input, select {
       height: 100% !important;
       margin: 0;
+    }
+
+    input[type=checkbox] {
+      top: 0;
     }
   }
 }

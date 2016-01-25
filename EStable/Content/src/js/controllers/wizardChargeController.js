@@ -2,73 +2,75 @@
   "use strict";
     var wizard = angular.module("wizard"),
     wizardChargeController = function($scope, $rootScope, wizardApi) {
-    	var onGetChargeComplete = function(data){
-            $scope.charge = JSON.parse(data.data);
-            $scope.charge.TaxDate = new Date($scope.charge.TaxDate);
+    	var onGetChargeComplete = function(response){
+        console.log("response", response.data);
+        if(response.data){
+          var chargeData = JSON.parse(response.data);
+            $scope.stableCharges = chargeData.StableChargeTypes;
+            $scope.standardCharges = chargeData.StandardChargeTypes;
+            data = chargeData;
+        }
     	},
       onError = function(data){
 	      console.log(data);
 	    },
       activeRow = null,
-      activeRowform = null,
       data = {
         StableEmail: $rootScope.user.email,
         StableName: $rootScope.user.stableName,
         StableChargeTypes: [
-          { id: 1, description: null, unit: 1, rate: 0, inStable: true }
+          { Id: 1, Description: null, Unit: 1, Rate: 0, InStable: true }
         ],
         StandardChargeTypes: [
-          {id: 1, description: null, rate: 0 }
+          {Id: 1, Description: null, Rate: 0 }
         ]
       },
-      hideRow = function(row, rowform){
-        if(!activeRow || !rowform) return;
+      hideRow = function(row, form){
+        if(!activeRow || !form) return;
 
-        saveRow(rowform);
-        rowform.$cancel();
+        saveRow(form);
+        form.$cancel();
         var trimmedName = row.className.split('editing-row')[1];
         activeRow.className = trimmedName;
       };
+
       /**
       * Sort through the row data, if that row already esists (being edited by user), overrite the rows data.
       **/
-      var storeRowData = function(rowform){
-        var id = rowform.$data.Id,
-        inStableChargesArray = false;
+      var storeRowData = function(form, chargesArray){
+        var id = form.$data.Id,
+        inChargesArray = false;
 
-        data.StableChargeTypes.forEach(function(row, i){
+        chargesArray.forEach(function(row, i){
           if(row.Id === id){
-            data.StableChargeTypes[i] = rowform.$data;
-            inStableChargesArray = true;
+            chargesArray[i] = form.$data;
+            inChargesArray = true;
           }
           return;
         });
 
-        if(!inStableChargesArray){
-          data.StableChargeTypes.push(rowform.$data);
+        if(!inChargesArray){
+          chargesArray.push(form.$data);
         }
         return;
       };
 
-      var saveRow = function(rowform){
-        storeRowData(rowform);
+      var saveRow = function(form){
+        var chargesArray = (form.$name === "stable") ? data.StableChargeTypes : data.StandardChargeTypes;
+        storeRowData(form, chargesArray);
+
+        $scope.stableCharges = data.StableChargeTypes;
+        $scope.standardCharges = data.StandardChargeTypes;
         $scope.postcharge();
       };
 
 
-      //Scope Assignments
-      $scope.hideRow = function(event){
-        console.log('blur');
-        hideRow(activeRow, this.rowform);
-      };
-
-      $scope.showRow= function(event){
+      $scope.showRow= function(event, form){
         //remove detail from previous active row
-        hideRow(activeRow, activeRowform);
+        hideRow(activeRow, form);
         //reassign active row.
-        activeRowform = this.rowform;
         activeRow = (event.target.parentElement.nodeName !== "TR") ? event.target.parentElement.parentElement : event.target.parentElement;
-        activeRowform.$show();
+        form.$show();
         activeRow.className += ' editing-row';
       };
 
@@ -88,7 +90,7 @@
 
       $scope.addStableRow = function(){
         data.StableChargeTypes.push({
-          id: $scope.standardCharges.length+1,
+          id: data.StableChargeTypes.length+1,
           description: null,
           unit: 0,
           rate: 0,
@@ -97,8 +99,8 @@
       };
 
       $scope.addStandardRow = function(){
-        $scope.standardCharges.push({
-          id: $scope.standardCharges.length+1,
+        data.StandardChargeTypes.push({
+          id: data.StandardChargeTypes.length+1,
           description: null,
           rate: 0
         });
@@ -124,8 +126,10 @@
       	.then(onPostChargeComplete, onError);
       };
 
-        wizardApi.getData("chargetypes", $rootScope.user.email)
-        .then(onGetChargeComplete, onError);
+        if($rootScope.user.email){
+          wizardApi.getData("chargetypes", $rootScope.user.email)
+            .then(onGetChargeComplete, onError);
+          }
     };
 
     wizard.controller("wizardChargeController", ["$scope", "$rootScope", "wizardApi", wizardChargeController]);
