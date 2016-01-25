@@ -8,6 +8,7 @@ table {
     td{
       cursor: pointer;
       display: flex;
+      padding: 0 !important;
 
       .form-control{
         padding: 0.2em;
@@ -28,6 +29,12 @@ table {
 
       }
     }
+  }
+  .clickable-field{
+    height: 100%;
+    flex: 1;
+    position: relative;
+    padding: 5px;
   }
 
   .editable-wrap{
@@ -58,7 +65,6 @@ table {
   .btn-danger{
     color: #D9534F;
     background-color: transparent;
-    margin: 5% 0;
   }
 
   .btn-primary, .btn-default{

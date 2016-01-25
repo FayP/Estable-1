@@ -9,36 +9,36 @@
         <td style="width:16%">In Stable</td>
       </tr>
       <tr ng-repeat="charge in stableCharges" class="table-row">
-        <td style="width:55%" ng-click="showRow($event)" ng-blur="hideRow(event)">
+        <td style="width:55%" ng-blur="hideRow(event)">
           <div style="display:none">
             <div editable-number="charge.id" e-form="rowform" e-name="Id" value="{{charge.id}}"></div>
           </div>
           <!-- editable description, text -->
-          <div type="text" editable-text="charge.description" e-name="Description" e-form="rowform" e-required value="{{ charge.description || '+ description' }}">
+          <div type="text" ng-click="showRow($event)" editable-text="charge.description" class="clickable-field" e-name="Description" e-form="rowform" e-required value="{{ charge.description || '+ description' }}">
             {{ charge.description || '+ description' }}
           </div>
         </td>
-        <td style="width:20%" ng-click="showRow($event)">
+        <td style="width:20%">
           <!-- editable units, dropdown -->
-          <div editable-select="charge.unit" e-name="Unit" e-form="rowform" e-ng-options="u.value as u.text for u in units" value="{{ charge.unit }}">
+          <div editable-select="charge.unit" ng-click="showRow($event)" class="clickable-field" e-name="Unit" e-form="rowform" e-ng-options="u.value as u.text for u in units" value="{{ charge.unit }}">
             {{ units[charge.unit].text }}
           </div>
         </td>
-        <td style="width:10%" ng-click="showRow($event)">
+        <td style="width:10%">
           <!-- editable rates, number -->
-          <div editable-number="charge.rate" e-name="Rate" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+          <div editable-number="charge.rate" ng-click="showRow($event)" class="clickable-field" e-name="Rate" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
             {{ charge.rate }}
           </div>
         </td>
-        <td style="width:10%" ng-click="showRow($event)">
+        <td style="width:10%">
           <!-- editable units, checkbox -->
-          <input type="checkbox" e-form="rowform" tabindex="-1" e-name="InStable" ng-checked="{{charge.inStable}}" />
+          <input type="checkbox" ng-click="showRow($event)" class="clickable-field" e-form="rowform" tabindex="-1" e-name="InStable" ng-checked="{{charge.inStable}}" />
         </td>
         <td style="white-space: nowrap; padding: 0; width: 6%">
           <!-- form -->
           <form editable-form name="rowform" onbeforesave="postcharge($data)" class="form-buttons form-inline" shown="inserted == user">
           </form>
-          <button class="btn btn-danger" tabindex="-1" ng-click="removeStableRow($index)">
+          <button class="btn btn-danger" tabindex="-1" class="clickable-field" ng-click="removeStableRow($index)">
             <i class="fa fa-trash fa-lg"></i>
           </button>
         </td>
